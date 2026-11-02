@@ -1,0 +1,68 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: siteContent
+    // Document ID: main
+    // Fields: navbar, hero, colors, services, experiences, portfolio, blogs, hireMe, contact, footer, sectionTitles, etc.
+    //
+    // Collection: analytics
+    // Document ID: stats
+    // Fields: viewsCount, totalUploadBytes, totalDownloadBytes
+    //
+    // Collection: blogComments
+    // Document ID: {commentId}
+    // Fields:
+    //   - blogId: string (required, 1-200 chars)
+    //   - blogTitle: string (optional, 0-300 chars)
+    //   - name: string (required, 1-100 chars)
+    //   - email: string (optional, 0-150 chars)
+    //   - content: string (required, 1-2000 chars)
+    //   - createdAt: timestamp / date (required)
+    //
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function hasRequiredCommentFields(data) {
+      return data.keys().hasAll(['blogId', 'name', 'content', 'createdAt']);
+    }
+
+    function isValidComment(data) {
+      return hasRequiredCommentFields(data) &&
+        data.blogId is string && data.blogId.size() >= 1 && data.blogId.size() <= 200 &&
+        data.name is string && data.name.size() >= 1 && data.name.size() <= 100 &&
+        data.content is string && data.content.size() >= 1 && data.content.size() <= 2000 &&
+        (!('email' in data) || (data.email is string && data.email.size() <= 150)) &&
+        (!('blogTitle' in data) || (data.blogTitle is string && data.blogTitle.size() <= 300)) &&
+        (data.createdAt is timestamp || data.createdAt is string || data.createdAt is number);
+    }
+
+    // Site Content: readable by all visitors, editable only by authenticated admin
+    match /siteContent/{docId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // Analytics Stats: readable by all, updateable for visitor counting
+    match /analytics/{docId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Blog Comments: readable by everyone, creatable by anyone with valid format, deletable/updatable by admin
+    match /blogComments/{commentId} {
+      allow read: if true;
+      allow create: if isValidComment(request.resource.data);
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+  }
+}
