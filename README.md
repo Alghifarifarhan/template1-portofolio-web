@@ -1,4 +1,4 @@
-# 🚀 Portfolio Website (Modified & Extended Version)
+# 🚀 Template1 Portfolio Website (Modified & Extended Version)
 
 Website portofolio profesional dan modern yang dilengkapi dengan **Content Management System (CMS) Admin Dashboard**, integrasi **Google Firebase (Firestore & Authentication)**, sistem blog interaktif dengan komentar real-time, serta kustomisasi tema warna dinamis.
 
@@ -174,34 +174,6 @@ Jika Anda ingin menggunakan Firebase Anda sendiri dari awal:
 
 ---
 
-## 📦 Build & Deploy ke Firebase Hosting
-
-Untuk membangun versi produksi dan mengunggahnya ke hosting:
-
-1. **Build Static Export**:
-   ```bash
-   npm run build
-   ```
-   Hasil build berupa file HTML, CSS, dan JS statis akan tersimpan di dalam folder `out/`.
-
-2. **Login ke Firebase CLI**:
-   ```bash
-   npx firebase login
-   ```
-
-3. **Hubungkan Project Firebase Anda**:
-   ```bash
-   npx firebase use --add
-   ```
-   *(Pilih ID Project Firebase Anda).*
-
-4. **Deploy Firestore Rules & Hosting**:
-   ```bash
-   npx firebase deploy
-   ```
-
----
-
 ## 🔐 Panduan Penggunaan Halaman Admin (`/admin`)
 
 Setelah masuk ke Dashboard Admin, Anda dapat mengelola seluruh konten dengan mudah:
@@ -221,15 +193,6 @@ Setelah masuk ke Dashboard Admin, Anda dapat mengelola seluruh konten dengan mud
    - **Opsi B (Google Drive)**: Atur hak akses file di Drive menjadi *"Siapa saja yang memiliki link"*, lalu salin link-nya ke kolom foto di Admin.
 4. **Tombol "Bersihkan Data Contoh"**:
    - Tombol di pojok kanan atas Admin berguna untuk mengosongkan seluruh konten *dummy* bawaan template saat pertama kali digunakan, tanpa menghapus atribusi hak cipta di footer.
-
----
-
-## 📊 Batasan Layanan (Firebase Spark Plan - 100% Gratis)
-
-Website ini dirancang sangat efisien untuk paket **Spark Plan (Gratis)** dari Google Firebase:
-- **Kapasitas Kunjungan**: Mampu menampung sekitar **900 – 1.000 kunjungan per hari** (atau ~30.000 kunjungan per bulan) secara gratis.
-- **Batas Kuota Bandwidth**: Firebase Spark menyediakan bandwidth unduh 360 MB/hari. Jika kuota harian habis, akses akan otomatis normal kembali keesokan harinya saat kuota di-reset.
-- **Penyimpanan Gambar**: Karena gambar dikompresi atau ditarik langsung dari server Google Drive, kuota hosting tetap hemat dan ringan.
 
 ---
 
